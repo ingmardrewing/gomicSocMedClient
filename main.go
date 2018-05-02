@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"regexp"
 	"strings"
 
 	shared "github.com/ingmardrewing/gomicSocMedShared"
@@ -73,21 +72,4 @@ func askUser(prompt string) string {
 	fmt.Print(prompt + ": ")
 	text, _ := reader.ReadString('\n')
 	return strings.TrimSuffix(text, "\n")
-}
-
-func getTagsFromUserInput(commaSeparated string) []string {
-	return regSplit(commaSeparated, ",\\s+")
-}
-
-func regSplit(text string, delimeter string) []string {
-	reg := regexp.MustCompile(delimeter)
-	indexes := reg.FindAllStringIndex(text, -1)
-	laststart := 0
-	result := make([]string, len(indexes)+1)
-	for i, element := range indexes {
-		result[i] = text[laststart:element[0]]
-		laststart = element[1]
-	}
-	result[len(indexes)] = text[laststart:len(text)]
-	return result
 }
